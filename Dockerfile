@@ -65,7 +65,7 @@ RUN cd ${WORKDIR}/vendor/snowdog/frontools && \
 
 USER root
 
-#RUN find /opt/bitnami/magento/htdocs -type d -print0 | xargs -0 chmod 775 && \
-#    find /opt/bitnami/magento/htdocs -type f -print0 | xargs -0 chmod 664 && \
-RUN chmod +x /opt/bitnami/magento/htdocs/bin/* && \
-    chown -R bitnami:daemon /opt/bitnami/magento/htdocs
+RUN find /opt/bitnami/magento/htdocs -type d -print0 | xargs -0 chmod 775 && \
+    find /opt/bitnami/magento/htdocs -type f -print0 | xargs -0 chmod 664 && \
+    find /opt/bitnami/magento/htdocs ! -user bitnami -print0 | xargs -0 chown -R bitnami:daemon && \
+    chmod +x /opt/bitnami/magento/htdocs/bin/*
