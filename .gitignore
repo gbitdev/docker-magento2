@@ -1,0 +1,6 @@
+data/magento/htdocs/*/*/
+data/magento/htdocs/var/.*
+data/magento/.initialized
+!data/magento/htdocs/frontools/config/.gitkeep
+!data/magento/htdocs/app/code/*/
+data/mariadb/data/*

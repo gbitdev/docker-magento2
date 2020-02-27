@@ -1,0 +1,11 @@
+{
+	"alpaca": {
+		"src": "vendor/snowdog/theme-frontend-alpaca",
+		"dest": "pub/static/frontend/Snowdog/alpaca",
+		"disableSuffix": true,
+		"locale": ["pl_PL"],
+		"modules": {
+			"Snowdog_Components": "vendor/snowdog/module-alpaca-components/components"
+		}
+	}
+}
