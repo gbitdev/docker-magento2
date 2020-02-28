@@ -23,10 +23,10 @@ docker-test:
     - docker pull "$CI_REGISTRY_IMAGE:$(date +'%Y%m%d')"
     - wget https://github.com/mikefarah/yq/releases/download/3.2.0/yq_linux_amd64 -O /bin/yq && chmod +x /bin/yq
   script:
-    - sed -i "s/magento2:latest/magento2:$(date +'%Y%m%d')/" docker-compose.yml
     - yq delete docker-compose.yml 'services.*.volumes' | yq delete - 'services.varnish' | yq delete - 'services.redis' | yq delete - 'services.magento.depends_on[1]' | yq delete - 'volumes' > docker-compose.ci.yaml
+    - sed -i "s/magento2:latest/magento2:$(date +'%Y%m%d')/" docker-compose.ci.yml
     - echo "$CI_REGISTRY_IMAGE:$(date +'%Y%m%d')"
     - docker-compose -f docker-compose.ci.yaml up --no-build --quiet-pull -d
-    - docker-compose logs -f magento mariadb | while read LOGLINE; do echo "${LOGLINE}"; [[ "${LOGLINE}" == *"Starting magento..."* ]] && pkill -P $$ docker-compose; done
+    - docker-compose logs -f magento mariadb | while read LOGLINE; do echo "${LOGLINE}"; [[ "${LOGLINE}" == *"Starting magento..."* ]] && pkill -P $$ docker-compose && echo Magento Healthy && exit 0; done;
     - docker tag "$CI_REGISTRY_IMAGE:$(date +'%Y%m%d')" "$CI_REGISTRY_IMAGE:latest",
     - docker push "$CI_REGISTRY_IMAGE:latest"
