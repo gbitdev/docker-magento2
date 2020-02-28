@@ -15,8 +15,6 @@ services:
     image: 'bitnami/redis:latest'
     env_file:
       - .env
-    volumes:
-      - 'redis_data:/bitnami/redis/data'
   mariadb:
     image: 'bitnami/mariadb'
     env_file:
@@ -28,27 +26,8 @@ services:
     env_file:
       - .env
     volumes:
-      # - './bin/upgrade.sh:/opt/bitnami/magento/htdocs/bin/upgrade.sh'
       - './data/magento:/bitnami/magento'
       - './data/varnish:/bitnami/varnish'
-      # - 'apache_logs:/opt/bitnami/apache/logs'
     depends_on:
       - mariadb
       - redis
-  # adminer:
-  #   image: adminer
-  #   ports:
-  #     - 8080:8080
-  # goaccess:
-  #   image: 'allinurl/goaccess'
-  #   ports:
-  #     - 7890:7890
-  #   volumes:
-  #     - goaccess_data:/srv/data
-  #     - goaccess_html:/srv/report
-  #     - apache_logs:/srv/logs
-volumes:
-  redis_data:
-  # apache_logs:
-  # goaccess_data:
-  # goaccess_html:
