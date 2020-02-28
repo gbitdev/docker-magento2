@@ -21,10 +21,10 @@ docker-test:
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker pull "$CI_REGISTRY_IMAGE:$(date +'%Y%m%d')"
+    - mkdir -p data/{magento,varnish,mariadb/data} && chmod -R 777 data && chown -R 1000:1000 data
   script:
     - sed -i "s/magento2:latest/magento2:$(date +'%Y%m%d')/" docker-compose.yml
     - echo "$CI_REGISTRY_IMAGE:$(date +'%Y%m%d')"
-    - cat docker-compose.yml
     - docker-compose up --no-build --quiet-pull -d 
     - docker-compose logs -f magento mariadb | while read LOGLINE; do echo "${LOGLINE}"; [[ "${LOGLINE}" == *"Starting magento..."* ]] && pkill -P $$ docker-compose; done
     - docker tag "$CI_REGISTRY_IMAGE:$(date +'%Y%m%d')" "$CI_REGISTRY_IMAGE:latest",
