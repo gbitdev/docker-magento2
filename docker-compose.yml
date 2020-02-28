@@ -25,10 +25,6 @@ services:
       - './data/mariadb:/bitnami/mariadb'
   magento:
     image: 'registry.gitlab.com/gbitdev-magento2/magento2-docker/magento:latest'
-    build:
-      context: .
-      args:
-        - THEME=
     env_file:
       - .env
     volumes:
