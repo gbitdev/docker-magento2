@@ -12,7 +12,7 @@ services:
     depends_on:
       - magento
   redis:
-    image: 'bitnami/redis:5.0'
+    image: 'bitnami/redis:latest'
     env_file:
       - .env
     volumes:
