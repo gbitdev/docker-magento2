@@ -26,6 +26,6 @@ docker-test:
     - echo "$CI_REGISTRY_IMAGE:$(date +'%Y%m%d')"
     - cat docker-compose.yml
     - docker-compose up --no-build --quiet-pull -d 
-    - docker-compose logs -f magento | while read LOGLINE; do echo "${LOGLINE}"; [[ "${LOGLINE}" == *"Starting magento..."* ]] && pkill -P $$ docker-compose; done
+    - docker-compose logs -f magento mariadb | while read LOGLINE; do echo "${LOGLINE}"; [[ "${LOGLINE}" == *"Starting magento..."* ]] && pkill -P $$ docker-compose; done
     - docker tag "$CI_REGISTRY_IMAGE:$(date +'%Y%m%d')" "$CI_REGISTRY_IMAGE:latest",
     - docker push "$CI_REGISTRY_IMAGE:latest"
