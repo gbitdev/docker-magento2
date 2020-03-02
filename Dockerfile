@@ -56,6 +56,7 @@ RUN composer global require hirak/prestissimo && \
     mageplaza/module-smtp \
     # outeredge/magento-structured-data-module \
     przelewy24/dialcom_przelewy && \
+    stripe/stripe-php:^6 && \
     ln -s /bitnami/magento/htdocs/frontools ${WORKDIR}/dev/tools/frontools
 
 COPY --chown=1000:1 themes.json ${WORKDIR}/dev/tools/frontools/config/themes.json
