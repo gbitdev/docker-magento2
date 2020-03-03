@@ -11,6 +11,9 @@ docker-build:
     - docker pull $CI_REGISTRY_IMAGE:$(date +'%Y%m%d') || true
     - docker build --cache-from $CI_REGISTRY_IMAGE:$(date +'%Y%m%d') --tag $CI_REGISTRY_IMAGE:$(date +'%Y%m%d') .
     - docker push $CI_REGISTRY_IMAGE:$(date +'%Y%m%d')
+  only:
+    - master
+    - ci
 
 docker-test:
   # Official docker image.
@@ -30,3 +33,6 @@ docker-test:
     - (docker-compose logs -f) | grep -q "Starting magento" && exit 0
     - docker tag "$CI_REGISTRY_IMAGE:$(date +'%Y%m%d')" "$CI_REGISTRY_IMAGE:latest"
     - docker push "$CI_REGISTRY_IMAGE:latest"
+  only:
+    - master
+    - ci
