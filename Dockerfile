@@ -77,6 +77,8 @@ RUN cd ${WORKDIR}/vendor/snowdog/frontools && \
 
 USER root
 
+COPY init /docker-entrypoint-init.d
+
 RUN find /opt/bitnami/magento/htdocs -type d -print0 | xargs -0 chmod 775 && \
     find /opt/bitnami/magento/htdocs -type f -print0 | xargs -0 chmod 664 && \
     find /opt/bitnami/magento/htdocs ! -user bitnami -print0 | xargs -0 chown -R bitnami:daemon && \
