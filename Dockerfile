@@ -32,7 +32,7 @@ COPY --chown=1000:1 composer /home/bitnami/.composer
 RUN composer global require hirak/prestissimo && \
     composer config repositories.Dialcom_Przelewy path ./dev/app/code/Dialcom/Przelewy && \
     composer config repositories.StripeIntegration_Payments path ./dev/app/code/StripeIntegration/Payments && \
-    composer require \
+    composer require --update-no-dev \
     cloudflare/cloudflare-magento \
     snowdog/theme-frontend-alpaca \
     snowdog/module-alpaca-components \
