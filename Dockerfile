@@ -20,7 +20,9 @@ RUN install_packages unzip git nano bzip2 mlocate less && \
     curl https://www.przelewy24.pl/storage/app/media/pobierz/Wtyczki/Magento2x-v1_1_25.zip -o ${WORKDIR}/dev/Magento2x-v1_1_25.zip && \
     curl https://code.stripe.com/magento/stripe-magento2-1.6.0.tgz -o ${WORKDIR}/dev/stripe-magento2-1.6.0.tgz && \
     unzip ${WORKDIR}/dev/Magento2x-v1_1_25.zip -d ${WORKDIR}/dev/app/code && \
-    tar xf ${WORKDIR}/dev/stripe-magento2-1.6.0.tgz -C ${WORKDIR}/dev
+    tar xf ${WORKDIR}/dev/stripe-magento2-1.6.0.tgz -C ${WORKDIR}/dev && \
+    sed -i 's/\^100/\*/' ${WORKDIR}/dev/app/code/Dialcom/Przelewy/composer.json 
+
 
 
 # RUN sed -i 's/128M/-1/g' /opt/bitnami/php/lib/php.ini && \

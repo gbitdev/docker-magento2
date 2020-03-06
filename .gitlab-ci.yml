@@ -33,3 +33,5 @@ docker-test:
     - (docker-compose logs -f) | grep -q "Starting magento" && exit 0
     - docker tag "$CI_REGISTRY_IMAGE:$IMAGE_TAG" "$CI_REGISTRY_IMAGE:latest"
     - docker push "$CI_REGISTRY_IMAGE:latest"
+  only:
+    - master
