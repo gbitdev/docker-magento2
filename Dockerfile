@@ -15,7 +15,13 @@ WORKDIR ${WORKDIR}
 
 RUN install_packages unzip git nano bzip2 mlocate less && \
     npm install gulp-cli -g && \
-    curl https://files.magerun.net/n98-magerun2.phar -o ${WORKDIR}/bin/magerun2
+    curl https://files.magerun.net/n98-magerun2.phar -o ${WORKDIR}/bin/magerun2 && \
+    mkdir -p ${WORKDIR}/dev/app/{code,design} && \
+    curl https://www.przelewy24.pl/storage/app/media/pobierz/Wtyczki/Magento2x-v1_1_25.zip -o ${WORKDIR}/dev/Magento2x-v1_1_25.zip && \
+    curl https://code.stripe.com/magento/stripe-magento2-1.6.0.tgz -o ${WORKDIR}/dev/stripe-magento2-1.6.0.tgz && \
+    unzip ${WORKDIR}/dev/Magento2x-v1_1_25.zip -d ${WORKDIR}/dev/app/code && \
+    tar xf ${WORKDIR}/dev/stripe-magento2-1.6.0.tgz -C ${WORKDIR}/dev
+
 
 # RUN sed -i 's/128M/-1/g' /opt/bitnami/php/lib/php.ini && \
 #     sed -i 's/768M/-1/g' /opt/bitnami/php/conf/php.ini && \
@@ -32,7 +38,8 @@ USER bitnami
 COPY --chown=1000:1 composer /home/bitnami/.composer
 
 RUN composer global require hirak/prestissimo && \
-    composer config repositories.Dialcom_Przelewy vcs https://gitlab.com/gbitdev-ecommerce/magento/magento2-platnosci24-extension.git && \
+    composer config repositories.Dialcom_Przelewy path ./dev/app/code/Dialcom/Przelewy && \
+    composer config repositories.StripeIntegration_Payments path ./dev/app/code/StripeIntegration/Payments && \
     composer require \
     cloudflare/cloudflare-magento \
     snowdog/theme-frontend-alpaca \
@@ -55,10 +62,13 @@ RUN composer global require hirak/prestissimo && \
     mageplaza/module-sitemap  \
     mageplaza/module-smtp \
     # outeredge/magento-structured-data-module \
-    stripe/stripe-php:^6 \
+    stripe/module-payments \
     yireo/magento2-webp2 \
     przelewy24/dialcom_przelewy && \
-    ln -s /bitnami/magento/htdocs/frontools ${WORKDIR}/dev/tools/frontools
+    ln -s /bitnami/magento/htdocs/frontools ${WORKDIR}/dev/tools/frontools && \
+    rm -rf ./vendor/przelewy24/dialcom_przelewy/{Test,view/Test} && \
+    cp ./vendor/gbitdev/theme-frontend-crestpoland/Mageplaza_Bannerslider/Observer/AddBlock.php \
+    ./vendor/mageplaza/module-banner-slider/Observer/AddBlock.php
 
 COPY --chown=1000:1 themes.json ${WORKDIR}/dev/tools/frontools/config/themes.json
 
