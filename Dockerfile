@@ -21,7 +21,7 @@ RUN install_packages unzip git nano bzip2 mlocate less && \
     curl https://code.stripe.com/magento/stripe-magento2-1.6.0.tgz -o ${WORKDIR}/dev/stripe-magento2-1.6.0.tgz && \
     unzip ${WORKDIR}/dev/Magento2x-v1_1_25.zip -d ${WORKDIR}/dev/app/code && \
     tar xf ${WORKDIR}/dev/stripe-magento2-1.6.0.tgz -C ${WORKDIR}/dev && \
-    sed -i 's/\^100/\*/' ${WORKDIR}/dev/app/code/Dialcom/Przelewy/composer.json 
+    sed -i 's/100.0.\*/\*/' ${WORKDIR}/dev/app/code/Dialcom/Przelewy/composer.json 
 
 
 
