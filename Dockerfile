@@ -71,10 +71,10 @@ COPY docker-entrypoint-init.d /docker-entrypoint-init.d
 COPY docker-entrypoint-restore.d /docker-entrypoint-restore.d
 
 RUN cp /post-init.sh /post-restore.sh && \
-    sed -i 's/docker-entrypoint-init.d/docker-entrypoint-restore.d/' post-restore.sh && \
-    sed -i 's/.user_scripts_initialized/.restored/' post-restore.sh && \
-    sed -i 's/Custom scripts/Custom restore scripts/' post-restore.sh && \
-    sed -i 's/Custom scripts/Custom init scripts/' post-init.sh && \
+    sed -i 's/docker-entrypoint-init.d/docker-entrypoint-restore.d/' /post-restore.sh && \
+    sed -i 's/.user_scripts_initialized/.restored/' /post-restore.sh && \
+    sed -i 's/Custom scripts/Custom restore scripts/' /post-restore.sh && \
+    sed -i 's/Custom scripts/Custom init scripts/' /post-init.sh && \
     sed -i 's/\/post-init.sh/\/post-init.sh \n . \/post-restore.sh /' app-entrypoint.sh \
     find /opt/bitnami/magento/htdocs -type d -print0 | xargs -0 chmod 775 && \
     find /opt/bitnami/magento/htdocs -type f -print0 | xargs -0 chmod 664 && \
