@@ -1,7 +1,8 @@
 # This file is a template, and might need editing before it works on your project.
 variables:
-  # IMAGE_TAG: $(date +'%Y%m%d')
-  IMAGE_TAG: $CI_COMMIT_REF_NAME
+  IMAGE_TAG: $(date +'%Y%m%d')
+  # IMAGE_TAG: $CI_COMMIT_REF_NAME
+
 docker-build:
   # Official docker image.
   image: docker:latest
@@ -29,8 +30,7 @@ docker-test:
     - sed -i "s/magento2:latest/magento2:$IMAGE_TAG/" docker-compose.ci.yml
     - echo "$CI_REGISTRY_IMAGE:$IMAGE_TAG"
     - docker-compose -f docker-compose.ci.yml up --no-build --quiet-pull -d
-    # - docker-compose logs -f magento mariadb | while read LOGLINE; do echo "${LOGLINE}"; [[ "${LOGLINE}" == *"Starting magento"* ]] && pkill -P $$ docker-compose && echo Magento Healthy && exit 0; done;
-    - (docker-compose logs -f) | grep -q "Starting magento" && exit 0
+    - docker-compose logs -f magento mariadb | while read LOGLINE; do echo "${LOGLINE}"; echo "${LOGLINE}" | grep -q "Starting magento" && pkill -P $$ docker-compose && echo Magento Healthy && exit 0; done
     - docker tag "$CI_REGISTRY_IMAGE:$IMAGE_TAG" "$CI_REGISTRY_IMAGE:latest"
     - docker push "$CI_REGISTRY_IMAGE:latest"
   only:
