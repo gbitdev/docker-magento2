@@ -23,16 +23,6 @@ RUN install_packages unzip git nano bzip2 mlocate less && \
     tar xf ${WORKDIR}/dev/stripe-magento2-1.6.0.tgz -C ${WORKDIR}/dev && \
     sed -i 's/100.0.\*/\*/' ${WORKDIR}/dev/app/code/Dialcom/Przelewy/composer.json 
 
-
-
-# RUN sed -i 's/128M/-1/g' /opt/bitnami/php/lib/php.ini && \
-#     sed -i 's/768M/-1/g' /opt/bitnami/php/conf/php.ini && \
-#     sed -i 's/768M/-1/g' /root/.nami/components/com.bitnami.magento/main.js && \
-#     sed -i 's/756M/-1/g' /opt/bitnami/apache/conf/vhosts/htaccess/magento-htaccess.conf && \
-#     sed -i 's/756M/-1/g' /opt/bitnami/magento/htdocs/.user.ini
-
-# RUN php -r "echo ini_get('memory_limit').PHP_EOL;"
-
 COPY --chown=1000:1000 ./bin/* ${WORKDIR}/bin/
 
 USER bitnami
@@ -68,9 +58,7 @@ RUN composer global require hirak/prestissimo && \
     yireo/magento2-webp2 \
     przelewy24/dialcom_przelewy && \
     ln -s /bitnami/magento/htdocs/frontools ${WORKDIR}/dev/tools/frontools && \
-    rm -rf ./vendor/przelewy24/dialcom_przelewy/{Test,view/Test} && \
-    cp ./vendor/gbitdev/theme-frontend-crestpoland/Mageplaza_Bannerslider/Observer/AddBlock.php \
-    ./vendor/mageplaza/module-banner-slider/Observer/AddBlock.php
+    rm -rf ./vendor/przelewy24/dialcom_przelewy/{Test,view/Test}
 
 COPY --chown=1000:1 themes.json ${WORKDIR}/dev/tools/frontools/config/themes.json
 
