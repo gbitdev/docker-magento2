@@ -17,11 +17,11 @@ RUN install_packages unzip git nano bzip2 mlocate less && \
     npm install gulp-cli -g && \
     curl https://files.magerun.net/n98-magerun2.phar -o ${WORKDIR}/bin/magerun2 && \
     mkdir -p ${WORKDIR}/dev/app/{code,design} && \
-    curl https://www.przelewy24.pl/storage/app/media/pobierz/Wtyczki/Magento2x-v1_1_25.zip -o ${WORKDIR}/dev/Magento2x-v1_1_25.zip && \
+    # curl https://www.przelewy24.pl/storage/app/media/pobierz/Wtyczki/Magento2x-v1_1_25.zip -o ${WORKDIR}/dev/Magento2x-v1_1_25.zip && \
     curl https://code.stripe.com/magento/stripe-magento2-1.6.0.tgz -o ${WORKDIR}/dev/stripe-magento2-1.6.0.tgz && \
-    unzip ${WORKDIR}/dev/Magento2x-v1_1_25.zip -d ${WORKDIR}/dev/app/code && \
-    tar xf ${WORKDIR}/dev/stripe-magento2-1.6.0.tgz -C ${WORKDIR}/dev && \
-    sed -i 's/100.0.\*/\*/' ${WORKDIR}/dev/app/code/Dialcom/Przelewy/composer.json 
+    # unzip ${WORKDIR}/dev/Magento2x-v1_1_25.zip -d ${WORKDIR}/dev/app/code && \
+    # sed -i 's/100.0.\*/\*/' ${WORKDIR}/dev/app/code/Dialcom/Przelewy/composer.json && \
+    tar xf ${WORKDIR}/dev/stripe-magento2-1.6.0.tgz -C ${WORKDIR}/dev
 
 COPY --chown=1000:1000 ./bin/* ${WORKDIR}/bin/
 
@@ -30,7 +30,7 @@ USER bitnami
 COPY --chown=1000:1 composer /home/bitnami/.composer
 
 RUN composer global require hirak/prestissimo && \
-    composer config repositories.Dialcom_Przelewy path ./dev/app/code/Dialcom/Przelewy && \
+    # composer config repositories.Dialcom_Przelewy path ./dev/app/code/Dialcom/Przelewy && \
     composer config repositories.StripeIntegration_Payments path ./dev/app/code/StripeIntegration/Payments && \
     composer require --update-no-dev \
     cloudflare/cloudflare-magento \
@@ -56,9 +56,9 @@ RUN composer global require hirak/prestissimo && \
     # outeredge/magento-structured-data-module \
     stripe/module-payments \
     yireo/magento2-webp2 \
-    przelewy24/dialcom_przelewy && \
-    ln -s /bitnami/magento/htdocs/frontools ${WORKDIR}/dev/tools/frontools && \
-    rm -rf ./vendor/przelewy24/dialcom_przelewy/{Test,view/Test}
+    # przelewy24/dialcom_przelewy && \
+    # rm -rf ./vendor/przelewy24/dialcom_przelewy/{Test,view/Test} && \
+    ln -s /bitnami/magento/htdocs/frontools ${WORKDIR}/dev/tools/frontools
 
 COPY --chown=1000:1 themes.json ${WORKDIR}/dev/tools/frontools/config/themes.json
 
