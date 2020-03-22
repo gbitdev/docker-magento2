@@ -55,7 +55,7 @@ RUN composer global require hirak/prestissimo && \
     mageplaza/module-smtp \
     # outeredge/magento-structured-data-module \
     stripe/module-payments \
-    yireo/magento2-webp2 \
+    yireo/magento2-webp2 && \
     # przelewy24/dialcom_przelewy && \
     # rm -rf ./vendor/przelewy24/dialcom_przelewy/{Test,view/Test} && \
     ln -s /bitnami/magento/htdocs/frontools ${WORKDIR}/dev/tools/frontools
