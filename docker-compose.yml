@@ -22,7 +22,7 @@ services:
     volumes:
       - './data/mariadb:/bitnami/mariadb'
   magento:
-    image: 'registry.gitlab.com/gbitdev-ecommerce/magento2:latest'
+    image: 'registry.gitlab.com/gbitdev/magento2:latest'
     env_file:
       - .env
     volumes:
