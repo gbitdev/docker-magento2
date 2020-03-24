@@ -28,7 +28,7 @@ COPY --chown=1000:1000 ./bin/* ${WORKDIR}/bin/
 
 USER bitnami
 
-COPY --chown=1000:1 composer /home/bitnami/.composer
+COPY --chown=1000:1 composer ${WORKDIR}/var/composer_home/
 
 RUN composer global require hirak/prestissimo && \
     composer config repositories.StripeIntegration_Payments path ./dev/app/code/StripeIntegration/Payments && \
