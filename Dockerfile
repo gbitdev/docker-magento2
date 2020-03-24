@@ -9,6 +9,10 @@ ARG WORKDIR=/opt/bitnami/magento/htdocs
 ENV COMPOSER_MEMORY_LIMIT=-1 \
     WORKDIR=${WORKDIR} \
     PATH="${WORKDIR}/bin:/opt/bitnami/node/bin:$PATH" \
+    LOCALE='pl_PL' \
+    DEFAULT_CURRENCY='PLN' \
+    ALLOW_CURRECIES='PLN' \
+    TIMEZONE='Europe/Warsaw' \
     THEME=Alpaca
 
 WORKDIR ${WORKDIR}
