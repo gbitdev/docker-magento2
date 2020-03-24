@@ -17,4 +17,4 @@ else
     gosu bitnami $WORKDIR/bin/magerun2 module:enable \
         $MODULES_TO_ENABLE && \
     echo "Modules Enabled"
-end
+fi
