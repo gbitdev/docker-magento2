@@ -30,7 +30,9 @@ USER bitnami
 
 COPY --chown=1000:1 composer ${WORKDIR}/var/composer_home/
 
-RUN composer global require hirak/prestissimo && \
+RUN sed -i 's/128M/-1/g' /opt/bitnami/php/conf/php.ini  && \
+    sed -i 's/768M/-1/g' /opt/bitnami/php/conf/php.ini && \
+    composer global require hirak/prestissimo && \
     composer config repositories.StripeIntegration_Payments path ./dev/app/code/StripeIntegration/Payments && \
     composer require --update-no-dev \
     cloudflare/cloudflare-magento \
