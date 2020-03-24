@@ -19,6 +19,8 @@ WORKDIR ${WORKDIR}
 
 RUN install_packages unzip git nano bzip2 mlocate less && \
     npm install gulp-cli -g && \
+    sed -i 's/128M/-1/g' /opt/bitnami/php/conf/php.ini && \
+    sed -i 's/768M/-1/g' /opt/bitnami/php/conf/php.ini && \
     curl https://files.magerun.net/n98-magerun2.phar -o ${WORKDIR}/bin/magerun2 && \
     mkdir -p ${WORKDIR}/dev/app/{code,design} && \
     curl https://code.stripe.com/magento/stripe-magento2-1.7.1.tgz -o ${WORKDIR}/dev/stripe-magento2.tgz && \
@@ -30,9 +32,7 @@ USER bitnami
 
 COPY --chown=1000:1 composer ${WORKDIR}/var/composer_home/
 
-RUN sed -i 's/128M/-1/g' /opt/bitnami/php/conf/php.ini  && \
-    sed -i 's/768M/-1/g' /opt/bitnami/php/conf/php.ini && \
-    composer global require hirak/prestissimo && \
+RUN composer global require hirak/prestissimo && \
     composer config repositories.StripeIntegration_Payments path ./dev/app/code/StripeIntegration/Payments && \
     composer require --update-no-dev \
     cloudflare/cloudflare-magento \
