@@ -25,6 +25,8 @@ services:
     image: 'registry.gitlab.com/gbitdev/magento2:latest'
     env_file:
       - .env
+    environment:
+      - THEME=Alpaca
     volumes:
       - './data/magento:/bitnami/magento'
       - './data/varnish:/bitnami/varnish'
