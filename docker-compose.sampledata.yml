@@ -4,12 +4,10 @@ services:
     image: 'bitnami/mariadb'
     env_file:
       - .env
-    volumes:
-      - './data/mariadb:/bitnami/mariadb'
   magento:
     build:
       context: .
-      dockerfile: sampledata/Dockerfile
+      dockerfile: Dockerfile.sampledata
     image: 'registry.gitlab.com/gbitdev/magento2:latest-sampledata'
     env_file:
       - .env
