@@ -5,14 +5,18 @@ services:
     env_file:
       - .env
   magento:
-    build:
-      context: .
-      dockerfile: Dockerfile.sampledata
-    image: 'registry.gitlab.com/gbitdev/magento2:latest-sampledata'
+    build: .
+    image: 'registry.gitlab.com/gbitdev/magento2:latest'
+    volumes:
+      - './sampledata/1_removeStep2.sh:/docker-entrypoint-init.d/1_removeStep2.sh'
+      - './sampledata/3_depolySampleData.sh:/docker-entrypoint-init.d/3_depolySampleData.sh'
+      - './sampledata/99_enableAPI.sql:/docker-entrypoint-init.d/99_enableAPI.sql'
     env_file:
       - .env
     environment:
       - THEME=Alpaca
+      - MAGENTO_MODE=default
+      - MODULES_TO_DISABLE=Magefan_LazyLoad Magefan_RocketJavaScript Mageplaza_BetterPopup Mageplaza_BannerSlider Mageplaza_Productslider Mageplaza_Reports Mageplaza_Sitemap
     ports:
       - '80:80'
       - '443:443'
