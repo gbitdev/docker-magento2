@@ -13,7 +13,7 @@ ENV COMPOSER_MEMORY_LIMIT=-1 \
     DEFAULT_CURRENCY='PLN' \
     ALLOW_CURRECIES='PLN' \
     TIMEZONE='Europe/Warsaw' \
-    THEME=Alpaca
+    THEME='Snowdog/alpaca'
 
 WORKDIR ${WORKDIR}
 
