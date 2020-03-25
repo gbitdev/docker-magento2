@@ -19,6 +19,7 @@ WORKDIR ${WORKDIR}
 
 RUN install_packages unzip git nano bzip2 mlocate less && \
     npm install gulp-cli -g && \
+    mkdir -p /bitnami/magento/htdocs/frontools && \
     sed -i 's/128M/-1/g' /opt/bitnami/php/conf/php.ini && \
     sed -i 's/768M/-1/g' /opt/bitnami/php/conf/php.ini && \
     curl https://files.magerun.net/n98-magerun2.phar -o ${WORKDIR}/bin/magerun2 && \
@@ -59,7 +60,6 @@ RUN ln -s /home/bitnami/.composer ${WORKDIR}/var/composer_home && \
     # outeredge/magento-structured-data-module \
     # stripe/module-payments \
     yireo/magento2-webp2 \
-    && mkdir -p /bitnami/magento/htdocs/frontools \
     && ln -s /bitnami/magento/htdocs/frontools ${WORKDIR}/dev/tools/frontools
 
 COPY --chown=1000:1 themes.json ${WORKDIR}/dev/tools/frontools/config/themes.json
