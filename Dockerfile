@@ -69,8 +69,7 @@ RUN cd ${WORKDIR}/vendor/snowdog/frontools && \
 
 USER root
 
-COPY docker-entrypoint-init.d /docker-entrypoint-init.d
-COPY docker-entrypoint-restore.d /docker-entrypoint-restore.d
+COPY rootfs /
 
 RUN cp /post-init.sh /post-restore.sh && \
     chmod +x /post-init.sh /post-restore.sh && \

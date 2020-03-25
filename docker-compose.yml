@@ -8,7 +8,7 @@ services:
       - '80:80'
       - '443:443'
     volumes:
-      - ./data/varnish:/opt/docker/etc/varnish
+      - varnish:/opt/docker/etc/varnish
     depends_on:
       - magento
   redis:
@@ -30,7 +30,9 @@ services:
       - THEME=Snowdog/alpaca
     volumes:
       - './data/magento:/bitnami/magento'
-      - './data/varnish:/bitnami/varnish'
+      - 'varnish:/bitnami/varnish'
     depends_on:
       - mariadb
       - redis
+volumes:
+  varnish:
