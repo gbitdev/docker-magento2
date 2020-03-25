@@ -59,6 +59,7 @@ RUN ln -s /home/bitnami/.composer ${WORKDIR}/var/composer_home && \
     # outeredge/magento-structured-data-module \
     # stripe/module-payments \
     yireo/magento2-webp2 \
+    && mkdir -p /bitnami/magento/htdocs/frontools \
     && ln -s /bitnami/magento/htdocs/frontools ${WORKDIR}/dev/tools/frontools
 
 COPY --chown=1000:1 themes.json ${WORKDIR}/dev/tools/frontools/config/themes.json
