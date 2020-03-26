@@ -14,7 +14,7 @@ services:
     env_file:
       - .env
     environment:
-      - THEME=Alpaca
+      - THEME=Snowdog/alpaca
       - MAGENTO_MODE=default
       - MODULES_TO_DISABLE=Magefan_LazyLoad Magefan_RocketJavaScript Mageplaza_BetterPopup Mageplaza_BannerSlider Mageplaza_Productslider Mageplaza_Reports Mageplaza_Sitemap
     ports:
@@ -22,3 +22,8 @@ services:
       - '443:443'
     depends_on:
       - mariadb
+  adminer:
+    image: adminer
+    ports:
+      - '8080:8080'
+  
