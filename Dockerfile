@@ -1,6 +1,6 @@
 FROM bitnami/node:12 as node
 
-FROM bitnami/magento:latest
+FROM bitnami/magento:2.3.5
 
 COPY --from=node /opt/bitnami/node /opt/bitnami/node
 
@@ -20,12 +20,13 @@ WORKDIR ${WORKDIR}
 RUN install_packages unzip git nano bzip2 mlocate less && \
     npm install gulp-cli -g && \
     mkdir -p /bitnami/magento/htdocs/frontools && \
-    sed -i 's/128M/-1/g' /opt/bitnami/php/conf/php.ini && \
-    sed -i 's/768M/-1/g' /opt/bitnami/php/conf/php.ini && \
-    curl https://files.magerun.net/n98-magerun2.phar -o ${WORKDIR}/bin/magerun2 && \
-    mkdir -p ${WORKDIR}/dev/app/{code,design} && \
-    curl https://code.stripe.com/magento/stripe-magento2-1.7.1.tgz -o ${WORKDIR}/dev/stripe-magento2.tgz && \
-    tar xf ${WORKDIR}/dev/stripe-magento2.tgz -C ${WORKDIR}/dev
+    # sed -i 's/128M/-1/g' /opt/bitnami/php/conf/php.ini && \
+    # sed -i 's/768M/-1/g' /opt/bitnami/php/conf/php.ini && \
+    curl https://files.magerun.net/n98-magerun2.phar -o ${WORKDIR}/bin/magerun2
+#  && \
+# mkdir -p ${WORKDIR}/dev/app/{code,design} && \
+# curl https://code.stripe.com/magento/stripe-magento2-1.7.1.tgz -o ${WORKDIR}/dev/stripe-magento2.tgz && \
+# tar xf ${WORKDIR}/dev/stripe-magento2.tgz -C ${WORKDIR}/dev
 
 COPY --chown=1000:1000 ./bin/* ${WORKDIR}/bin/
 
@@ -35,10 +36,22 @@ COPY --chown=1000:1 composer /home/bitnami/.composer
 
 RUN ln -s /home/bitnami/.composer ${WORKDIR}/var/composer_home && \
     composer global require hirak/prestissimo && \
-    composer config repositories.StripeIntegration_Payments path ./dev/app/code/StripeIntegration/Payments && \
+    # composer config repositories.StripeIntegration_Payments path ./dev/app/code/StripeIntegration/Payments && \
     composer require --update-no-dev \
     cloudflare/cloudflare-magento \
+    # snowdog/module-alpaca-packages \
+    magepal/magento2-gmailsmtpapp \
+    # magepal/magento2-googletagmanager \
+    # mailchimp/mc-magento2 \
+    # smile/elasticsuite \
+    # snowdog/module-bullet-points \
+    # snowdog/module-category-attributes \
+    snowdog/module-menu \
+    # snowdog/module-product-attribute-description \
+    # snowdog/module-shipping-latency \
+    # snowdog/module-wishlist-unlocker \
     snowdog/theme-frontend-alpaca \
+    # webshopapps/module-matrixrate \
     snowdog/module-alpaca-components \
     snowdog/frontools \
     snowdog/module-menu \
@@ -57,7 +70,7 @@ RUN ln -s /home/bitnami/.composer ${WORKDIR}/var/composer_home && \
     mageplaza/module-reports \
     mageplaza/module-sitemap  \
     mageplaza/module-smtp \
-    # outeredge/magento-structured-data-module \
+    outeredge/magento-structured-data-module \
     # stripe/module-payments \
     yireo/magento2-webp2 \
     && ln -s /bitnami/magento/htdocs/frontools ${WORKDIR}/dev/tools/frontools
