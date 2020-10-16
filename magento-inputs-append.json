@@ -1,0 +1,16 @@
+{
+	"currency": "{{$global.env.CURRENCY}}",
+	"language": "{{$global.env.LANGUAGE}}",
+	"timeZone": "{{$global.env.TIMEZONE}}",
+	"locale": "{{$global.env.LOCALE}}",
+	"theme": "{{$global.env.THEME}}",
+	"redisServerHost": "{{$global.env.REDIS_HOST}}",
+	"redisServerPort": "{{$global.env.REDIS_PORT_NUMBER}}",
+	"amqpServerHost": "{{$global.env.AMQP_HOST}}",
+	"amqpServerPort": "{{$global.env.AMQP_PORT_NUMBER}}",
+	"amqpServerUser": "{{$global.env.AMQP_USER}}",
+	"amqpServerPassword": "{{$global.env.AMQP_PASSWORD}}",
+	"enableModules": "{{$global.env.ENABLE_MODULES}}",
+	"disableModules": "{{$global.env.DISABLE_MODULES}}",
+	"useSampleData": "{{$global.env.SAMPLE_DATA}}"
+}

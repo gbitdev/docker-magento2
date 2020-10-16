@@ -1,38 +1,57 @@
-version: '3.7'
+version: '2'
 services:
-  varnish:
-    image: 'webdevops/varnish'
-    env_file:
-      - .env
+  mariadb:
+    image: 'docker.io/bitnami/mariadb:10.3-debian-10'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MARIADB_USER=bn_magento
+      - MARIADB_PASSWORD=magento_db_password
+      - MARIADB_DATABASE=bitnami_magento
+    volumes:
+      - 'mariadb_data:/bitnami'
+  magento:
+    image: 'registry.gitlab.com/gbitdev/magento2:2.4.0'
+    environment:
+      - MARIADB_HOST=mariadb
+      - MARIADB_PORT_NUMBER=3306
+      - MAGENTO_DATABASE_USER=bn_magento
+      - MAGENTO_DATABASE_PASSWORD=magento_db_password
+      - MAGENTO_DATABASE_NAME=bitnami_magento
+      - ELASTICSEARCH_HOST=elasticsearch
+      - ELASTICSEARCH_PORT_NUMBER=4443
+      - REDIS_HOST=""
+      - REDIS_PORT_NUMBER=""
+      - AMQP_HOST=""
+      - AMQP_PORT_NUMBER=""
+      - AMQP_USER=""
+      - AMQP_PASSWORD=""
+      - MAGENTO_HOST=magento.local
+      - PHP_MEMORY_LIMIT='-1'
+      - LOCALE=pl_PL
+      - DEFAULT_CURRENCY=PLN
+      - ALLOW_CURRECIES=PLN
+      - TIMEZONE=Europe/Warsaw
+      - THEME=Snowdog/alpaca
+      - NAMI_DEBUG=TRUE
+      # - DISABLE_MODULES='Magento_AdobeIms Magento_AdobeImsApi Magento_AdobeStockAdminUi Magento_AdobeStockAssetApi Magento_AdobeStockClient Magento_AdobeStockClientApi Magento_AdobeStockImage Magento_AdobeStockImageApi Magento_AdobeStockAsset Magento_AdobeStockImageAdminUi Amazon_Core Amazon_Login Amazon_Payment Klarna_Core Klarna_Ordermanagement Klarna_Onsitemessaging Klarna_Kp Temando_ShippingRemover Yotpo_Yotpo'
     ports:
       - '80:80'
       - '443:443'
     volumes:
-      - varnish:/opt/docker/etc/varnish
-    depends_on:
-      - magento
-  redis:
-    image: 'bitnami/redis:latest'
-    env_file:
-      - .env
-  mariadb:
-    image: 'bitnami/mariadb'
-    env_file:
-      - .env
-    volumes:
-      - './data/mariadb:/bitnami/mariadb'
-  magento:
-    build: .
-    image: 'registry.gitlab.com/gbitdev/magento2:latest'
-    env_file:
-      - .env
-    environment:
-      - THEME=Snowdog/alpaca
-    volumes:
-      - './data/magento:/bitnami/magento'
-      - 'varnish:/bitnami/varnish'
+      - 'magento_data:/bitnami'
     depends_on:
       - mariadb
-      - redis
+      - elasticsearch
+  elasticsearch:
+    image: 'docker.io/bitnami/elasticsearch:6-debian-10'
+    environment:
+      - ELASTICSEARCH_PORT_NUMBER=4443
+    volumes:
+      - 'elasticsearch_data:/bitnami/elasticsearch/data'
 volumes:
-  varnish:
+  elasticsearch_data:
+    driver: local
+  mariadb_data:
+    driver: local
+  magento_data:
+    driver: local

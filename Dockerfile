@@ -1,40 +1,36 @@
 FROM bitnami/node:12 as node
 
-FROM bitnami/magento:2.3.5
+FROM bitnami/magento:2.4.0
 
 COPY --from=node /opt/bitnami/node /opt/bitnami/node
 
-ARG WORKDIR=/opt/bitnami/magento/htdocs
+WORKDIR /opt/bitnami/magento/htdocs
 
 ENV COMPOSER_MEMORY_LIMIT=-1 \
-    WORKDIR=${WORKDIR} \
-    PATH="${WORKDIR}/bin:/opt/bitnami/node/bin:$PATH" \
-    LOCALE='pl_PL' \
-    DEFAULT_CURRENCY='PLN' \
-    ALLOW_CURRECIES='PLN' \
-    TIMEZONE='Europe/Warsaw' \
-    THEME='Snowdog/alpaca'
+    PATH="/bitnami/magento/htdocs/bin:/opt/bitnami/node/bin:$PATH" \
+    WORKDIR=/bitnami/magento/htdocs \
+    REDIS_HOST="" \
+    REDIS_PORT_NUMBER="" \
+    AMQP_HOST="" \
+    AMQP_PORT_NUMBER="" \
+    AMQP_USER="" \
+    AMQP_PASSWORD="" \
+    ENABLE_MODULES="" \
+    DISABLE_MODULES="" \
+    SAMPLE_DATA="" \
+    THEME="Snowdog/alpaca" \
+    magento.root=${WORKDIR}
 
-WORKDIR ${WORKDIR}
-
-RUN install_packages unzip git nano bzip2 mlocate less && \
+RUN install_packages unzip git nano bzip2 mlocate less jq && \
     npm install gulp-cli -g && \
     mkdir -p /bitnami/magento/htdocs/frontools && \
-    # sed -i 's/128M/-1/g' /opt/bitnami/php/conf/php.ini && \
-    # sed -i 's/768M/-1/g' /opt/bitnami/php/conf/php.ini && \
-    curl https://files.magerun.net/n98-magerun2.phar -o ${WORKDIR}/bin/magerun2
-#  && \
-# mkdir -p ${WORKDIR}/dev/app/{code,design} && \
-# curl https://code.stripe.com/magento/stripe-magento2-1.7.1.tgz -o ${WORKDIR}/dev/stripe-magento2.tgz && \
-# tar xf ${WORKDIR}/dev/stripe-magento2.tgz -C ${WORKDIR}/dev
-
-COPY --chown=1000:1000 ./bin/* ${WORKDIR}/bin/
+    curl https://files.magerun.net/n98-magerun2.phar -o/opt/bitnami/magento/htdocs/bin/magerun2
 
 USER bitnami
 
 COPY --chown=1000:1 composer /home/bitnami/.composer
 
-RUN ln -s /home/bitnami/.composer ${WORKDIR}/var/composer_home && \
+RUN ln -s /home/bitnami/.composer /opt/bitnami/magento/htdocs/var/composer_home && \
     composer global require hirak/prestissimo && \
     # composer config repositories.StripeIntegration_Payments path ./dev/app/code/StripeIntegration/Payments && \
     composer require --update-no-dev \
@@ -73,18 +69,19 @@ RUN ln -s /home/bitnami/.composer ${WORKDIR}/var/composer_home && \
     outeredge/magento-structured-data-module \
     # stripe/module-payments \
     yireo/magento2-webp2 \
-    && ln -s /bitnami/magento/htdocs/frontools ${WORKDIR}/dev/tools/frontools
+    && ln -s /bitnami/magento/htdocs/frontools /opt/bitnami/magento/htdocs/dev/tools/frontools
 
-COPY --chown=1000:1 themes.json ${WORKDIR}/dev/tools/frontools/config/themes.json
+COPY --chown=1000:1 themes.json /opt/bitnami/magento/htdocs/dev/tools/frontools/config/themes.json
 
-RUN cd ${WORKDIR}/vendor/snowdog/frontools && \
+RUN cd /opt/bitnami/magento/htdocs/vendor/snowdog/frontools && \
     yarn && gulp setup
 
 USER root
 
 COPY rootfs /
 
-RUN cp /post-init.sh /post-restore.sh && \
+RUN sed -i 's/print0/print0 | sort -z/' /post-init.sh && \
+    cp /post-init.sh /post-restore.sh && \
     chmod +x /post-init.sh /post-restore.sh && \
     sed -i 's/docker-entrypoint-init.d/docker-entrypoint-restore.d/' /post-restore.sh && \
     sed -i 's/.user_scripts_initialized/.restored/' /post-restore.sh && \
@@ -93,5 +90,6 @@ RUN cp /post-init.sh /post-restore.sh && \
     sed -i 's/\/post-init.sh/\/post-init.sh \n . \/post-restore.sh /' /app-entrypoint.sh && \
     find /opt/bitnami/magento/htdocs -type d -print0 | xargs -0 chmod 775 && \
     find /opt/bitnami/magento/htdocs -type f -print0 | xargs -0 chmod 664 && \
-    find /opt/bitnami/magento/htdocs ! -user bitnami -print0 | xargs -0 chown -R bitnami:daemon && \
-    chmod +x /opt/bitnami/magento/htdocs/bin/*
+    find /opt/bitnami/magento/htdocs ! -user bitnami -print0 | xargs -0 chown -R bitnami:daemon
+
+WORKDIR ${WORKDIR}

@@ -1,0 +1,25 @@
+version: '2'
+services:
+  magento:
+    image: 'registry.gitlab.com/gbitdev/magento2:2.3.5'
+    environment:
+      - MARIADB_HOST=magento.c75ulse3fztl.eu-central-1.rds.amazonaws.com
+      - MARIADB_PORT_NUMBER=3306
+      - MAGENTO_DATABASE_USER=admin
+      - MAGENTO_DATABASE_PASSWORD=nimda123
+      - MAGENTO_DATABASE_NAME=bitnami_magento
+      - ELASTICSEARCH_HOST='https://vpc-crestpoland-magento-kmgayohsuz7vw3nmpt3tuetuam.eu-central-1.es.amazonaws.com'
+      - ELASTICSEARCH_PORT_NUMBER=443
+      - REDIS_HOST=magentocache.dq25ro.0001.euc1.cache.amazonaws.com
+      - REDIS_PORT_NUMBER=6379
+      - MAGENTO_HOST=ec2-3-126-114-124.eu-central-1.compute.amazonaws.com
+      - PHP_MEMORY_LIMIT='-1'
+      - NAMI_DEBUG=TRUE
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - 'magento_data:/bitnami'
+volumes:
+  magento_data:
+    driver: local

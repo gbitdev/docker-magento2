@@ -1,3 +1,6 @@
+magento_data/
+com.bitnami.magento/
+!rootfs/root/.nami/components/com.bitnami.magento
 data/magento/htdocs/*/*/
 data/magento/htdocs/var/.*
 data/magento/.initialized

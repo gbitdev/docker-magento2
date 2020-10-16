@@ -1,0 +1,204 @@
+{
+	"id": "com.bitnami.magento",
+	"name": "magento",
+	"extends": ["Component"],
+	"revision": "0",
+	"author": {
+		"name": "Bitnami",
+		"url": "https://bitnami.com"
+	},
+	"version": "2.4.0",
+	"expects": [
+		"com.bitnami.mysql-client",
+		"com.bitnami.php",
+		"com.bitnami.apache"
+	],
+	"properties": {
+		"username": {
+			"description": "User of the application",
+			"default": "user",
+			"required": true
+		},
+		"password": {
+			"description": "Application password",
+			"default": "bitnami1",
+			"type": "password",
+			"required": true
+		},
+		"email": {
+			"description": "Admin email",
+			"default": "user@example.com"
+		},
+		"host": {
+			"description": "Magento host to create application URLs. It can be either an IP or a domain. If left empty, it will be resolved to the machine IP",
+			"default": "127.0.0.1"
+		},
+		"adminUri": {
+			"description": "Prefix to access the Magento Admin",
+			"default": "admin"
+		},
+		"firstName": {
+			"description": "First name",
+			"default": "FirstName"
+		},
+		"lastName": {
+			"description": "Last name",
+			"default": "LastName"
+		},
+		"mode": {
+			"description": "Magento mode",
+			"type": "choice",
+			"validValues": ["default", "production", "developer"],
+			"default": "default"
+		},
+		"useSecureAdmin": {
+			"default": "no",
+			"type": "choice",
+			"validValues": ["no", "yes"],
+			"description": "Use SSL to access the Magento Admin"
+		},
+		"skipReindex": {
+			"default": "no",
+			"type": "choice",
+			"validValues": ["no", "yes"],
+			"description": "Skip Magento indexer reindex during the initial initialization"
+		},
+		"externalHttpPort": {
+			"description": "External port to access Magento application through HTTP",
+			"default": "80"
+		},
+		"externalHttpsPort": {
+			"description": "External port to access Magento application through HTTPS",
+			"default": "443"
+		},
+		"databaseServerHost": {
+			"description": "Database Server Host",
+			"default": "127.0.0.1"
+		},
+		"databaseServerPort": {
+			"description": "Database Server Port",
+			"default": 3306
+		},
+		"databaseName": {
+			"description": "Name of the database the application will connect to",
+			"default": "bitnami_magento"
+		},
+		"databaseUser": {
+			"description": "Name of the database user that the application will connect with",
+			"default": "bn_magento"
+		},
+		"databasePassword": {
+			"description": "Password for the database user",
+			"default": ""
+		},
+		"elasticsearchServerHost": {
+			"description": "Elasticsearch server host",
+			"default": ""
+		},
+		"elasticsearchServerPort": {
+			"description": "Elasticsearch server port",
+			"default": ""
+		},
+		"currency": {
+			"description": "Default currency",
+			"default": ""
+		},
+		"language": {
+			"description": "Default language",
+			"default": ""
+		},
+		"timeZone": {
+			"description": "Default time zone",
+			"default": ""
+		},
+		"locale": {
+			"description": "Default locale",
+			"default": ""
+		},
+		"theme": {
+			"description": "Default theme",
+			"default": ""
+		},
+		"redisServerHost": {
+			"description": "Redis server host",
+			"default": ""
+		},
+		"redisServerPort": {
+			"description": "Redis server port",
+			"default": ""
+		},
+		"amqpServerHost": {
+			"description": "AMQP server host",
+			"default": ""
+		},
+		"amqpServerPort": {
+			"description": "AMQP server port",
+			"default": ""
+		},
+		"amqpServerUser": {
+			"description": "AMQP server user",
+			"default": ""
+		},
+		"amqpServerPassword": {
+			"description": "AMQP server password",
+			"default": ""
+		},
+		"enableModules": {
+			"description": "List of modules to enable",
+			"default": ""
+		},
+		"disableModules": {
+			"description": "List of modules to disable",
+			"default": ""
+		},
+		"useSampleData": {
+			"description": "Should sample data be installed",
+			"default": ""
+		},
+		"setPermissionsBeforeInstall": {
+			"description": "Perform chmod/chown before installing",
+			"type": "choice",
+			"validValues": ["no", "yes"],
+			"default": "no"
+		},
+		"dataToPersist": {
+			"description": "Directories to preserve on containers",
+			"value": ["htdocs"]
+		},
+		"persistDir": {
+			"description": "Directory to backup application folders",
+			"value": "/bitnami/magento"
+		},
+		"systemUser": {
+			"description": "Magento user system",
+			"default": "bitnami"
+		},
+		"cronFile": {
+			"description": "Cron file",
+			"value": "conf/cron"
+		},
+		"phpMemoryLimit": {
+			"description": "Configures the memory_limit for PHP",
+			"default": "768M"
+		}
+	},
+	"exports": { "configureHost": { "arguments": ["host"] } },
+	"installation": {
+		"prefix": "magento",
+		"packaging": {
+			"components": [
+				{
+					"name": "magento",
+					"owner": "root",
+					"folders": [
+						{
+							"name": "magento",
+							"files": [{ "origin": ["files/magento/*"] }],
+							"destination": "{{$app.installdir}}/htdocs/"
+						}
+					]
+				}
+			]
+		}
+	}
+}

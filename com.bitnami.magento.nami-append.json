@@ -1,0 +1,60 @@
+{
+	"currency": {
+		"description": "Default currency",
+		"default": ""
+	},
+	"language": {
+		"description": "Default language",
+		"default": ""
+	},
+	"timeZone": {
+		"description": "Default time zone",
+		"default": ""
+	},
+	"locale": {
+		"description": "Default locale",
+		"default": ""
+	},
+	"theme": {
+		"description": "Default theme",
+		"default": ""
+	},
+	"redisServerHost": {
+		"description": "Redis server host",
+		"default": ""
+	},
+	"redisServerPort": {
+		"description": "Redis server port",
+		"default": ""
+	},
+	"amqpServerHost": {
+		"description": "AMQP server host",
+		"default": ""
+	},
+	"amqpServerPort": {
+		"description": "AMQP server port",
+		"default": ""
+	},
+	"amqpServerUser": {
+		"description": "AMQP server user",
+		"default": ""
+	},
+	"amqpServerPassword": {
+		"description": "AMQP server password",
+		"default": ""
+	},
+	"enableModules": {
+		"description": "List of modules to enable",
+		"default": ""
+	},
+	"disableModules": {
+		"description": "List of modules to disable",
+		"default": ""
+	},
+	"useSampleData": {
+		"description": "Should sample data be installed",
+		"type": "choice",
+		"validValues": ["no", "yes"],
+		"default": "no"
+	}
+}

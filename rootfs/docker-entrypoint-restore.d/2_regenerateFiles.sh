@@ -14,5 +14,5 @@ gosu bitnami gulp -f tools/gulpfile.esm.js styles && info "Theme CSS files compi
 gosu bitnami gulp -f tools/gulpfile.esm.js svg && info "Theme SVG files compiled"
 gosu bitnami gulp -f tools/gulpfile.esm.js babel --prod && info "JS minified" 
 
-gosu bitnami $WORKDIR/bin/magerun2 setup:static-content:deploy -t $THEME -t 'Magento/backend' -f pl_PL en_US && \
+gosu bitnami $WORKDIR/bin/magento setup:static-content:deploy -t $THEME -t 'Magento/backend' -f pl_PL en_US && \
 info "Static files deploy complete"

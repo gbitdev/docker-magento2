@@ -1,0 +1,38 @@
+version: '3.7'
+services:
+  varnish:
+    image: 'webdevops/varnish'
+    env_file:
+      - .env
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - varnish:/opt/docker/etc/varnish
+    depends_on:
+      - magento
+  redis:
+    image: 'bitnami/redis:latest'
+    env_file:
+      - .env
+  mariadb:
+    image: 'bitnami/mariadb'
+    env_file:
+      - .env
+    volumes:
+      - './data/mariadb:/bitnami/mariadb'
+  magento:
+    build: .
+    image: 'registry.gitlab.com/gbitdev/magento2:latest'
+    env_file:
+      - .env
+    environment:
+      - THEME=Snowdog/alpaca
+    volumes:
+      - './data/magento:/bitnami/magento'
+      - 'varnish:/bitnami/varnish'
+    depends_on:
+      - mariadb
+      - redis
+volumes:
+  varnish:
