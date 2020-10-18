@@ -9,6 +9,7 @@ WORKDIR /opt/bitnami/magento/htdocs
 ENV COMPOSER_MEMORY_LIMIT=-1 \
     PATH="/bitnami/magento/htdocs/bin:/opt/bitnami/node/bin:$PATH" \
     WORKDIR=/bitnami/magento/htdocs \
+    MAGENTO_HOST=magento.local \
     REDIS_HOST="" \
     REDIS_PORT_NUMBER="" \
     AMQP_HOST="" \
@@ -24,11 +25,17 @@ ENV COMPOSER_MEMORY_LIMIT=-1 \
 RUN install_packages unzip git nano bzip2 mlocate less jq && \
     npm install gulp-cli -g && \
     mkdir -p /bitnami/magento/htdocs/frontools && \
-    curl https://files.magerun.net/n98-magerun2.phar -o/opt/bitnami/magento/htdocs/bin/magerun2
+    curl https://files.magerun.net/n98-magerun2.phar -o/opt/bitnami/magento/htdocs/bin/magerun2 && \
+    mkdir -p ${WORKDIR}/dev/app/{code,design} 
+# && \
+# curl https://code.stripe.com/magento/stripe-magento2-1.7.1.tgz -o ${WORKDIR}/dev/stripe-magento2.tgz && \
+# tar xf ${WORKDIR}/dev/stripe-magento2.tgz -C ${WORKDIR}/dev
 
 USER bitnami
 
 COPY --chown=1000:1 composer /home/bitnami/.composer
+
+ARG ALPACA_VERSION=1.7.0
 
 RUN ln -s /home/bitnami/.composer /opt/bitnami/magento/htdocs/var/composer_home && \
     composer global require hirak/prestissimo && \
@@ -46,7 +53,7 @@ RUN ln -s /home/bitnami/.composer /opt/bitnami/magento/htdocs/var/composer_home 
     # snowdog/module-product-attribute-description \
     # snowdog/module-shipping-latency \
     # snowdog/module-wishlist-unlocker \
-    snowdog/theme-frontend-alpaca \
+    snowdog/theme-frontend-alpaca=$ALPACA_VERSION \
     # webshopapps/module-matrixrate \
     snowdog/module-alpaca-components \
     snowdog/frontools \
@@ -68,8 +75,8 @@ RUN ln -s /home/bitnami/.composer /opt/bitnami/magento/htdocs/var/composer_home 
     mageplaza/module-smtp \
     outeredge/magento-structured-data-module \
     # stripe/module-payments \
-    yireo/magento2-webp2 \
-    && ln -s /bitnami/magento/htdocs/frontools /opt/bitnami/magento/htdocs/dev/tools/frontools
+    yireo/magento2-webp2 
+# && ln -s /bitnami/magento/htdocs/frontools /opt/bitnami/magento/htdocs/dev/tools/frontools
 
 COPY --chown=1000:1 themes.json /opt/bitnami/magento/htdocs/dev/tools/frontools/config/themes.json
 

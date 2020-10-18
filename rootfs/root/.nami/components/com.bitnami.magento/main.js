@@ -149,11 +149,11 @@ $app.postInstallation = function () {
 			'--admin-password',
 			$app.password,
 			'--language',
-			!!$app.language ? $app.language : 'en_US',
+			$app.language || 'en_US',
 			'--currency',
-			!!$app.currency ? $app.currency : 'USD',
+			$app.currency || 'USD',
 			'--timezone',
-			!!$app.timezone ? $app.timezone : 'America/Los_Angeles',
+			$app.timezone || 'America/Los_Angeles',
 			'--use-secure',
 			'1',
 			'--base-url-secure',
@@ -165,60 +165,60 @@ $app.postInstallation = function () {
 			'--elasticsearch-port',
 			$app.elasticsearchServerPort,
 		];
-		if ($app.redisServerHost === '' || $app.redisServerPort === '') {
-		} else {
-			installationSettings.push(
-				'--session-save',
-				'redis',
-				'--session-save-redis-host',
-				$app.redisServerHost,
-				'--session-save-redis-port',
-				$app.redisServerport,
-				'--cache-backend',
-				'redis',
-				'--cache-backend-redis-server',
-				$app.redisServerHost,
-				'--cache-backend-redis-port',
-				$app.redisServerport,
-				'--page-cache',
-				'redis',
-				'--page-cache-redis-server',
-				$app.redisServerHost,
-				'--page-cache-redis-port',
-				$app.redisServerport
-			);
-		}
-		if ($app.amqpServerHost === '') {
-		} else {
-			installationSettings.push(
-				'--amqp-host',
-				$app.amqpServerHost,
-				'--amqp-port',
-				$app.amqpServerPort,
-				'--amqp-user',
-				$app.amqpServerUser,
-				'--amqp-password',
-				$app.amqpServerPassword
-			);
-		}
-		if ($app.enableModules === '') {
-		} else {
-			installationSettings.push('--enable-modules');
-			$app.enableModules
-				.split(' ')
-				.forEach((m) => installationSettings.push(m));
-		}
-		if ($app.disableModules === '') {
-		} else {
-			installationSettings.push('--disable-modules');
-			$app.disableModules
-				.split(' ')
-				.forEach((m) => installationSettings.push(m));
-		}
-		if ($app.useSampleData === '') {
-		} else {
-			installationSettings.push('--use-sample-data');
-		}
+		// if ($app.redisServerHost === '' || $app.redisServerPort === '') {
+		// } else {
+		// 	installationSettings.push(
+		// 		'--session-save',
+		// 		'redis',
+		// 		'--session-save-redis-host',
+		// 		$app.redisServerHost,
+		// 		'--session-save-redis-port',
+		// 		$app.redisServerport,
+		// 		'--cache-backend',
+		// 		'redis',
+		// 		'--cache-backend-redis-server',
+		// 		$app.redisServerHost,
+		// 		'--cache-backend-redis-port',
+		// 		$app.redisServerport,
+		// 		'--page-cache',
+		// 		'redis',
+		// 		'--page-cache-redis-server',
+		// 		$app.redisServerHost,
+		// 		'--page-cache-redis-port',
+		// 		$app.redisServerport
+		// 	);
+		// }
+		// if ($app.amqpServerHost === '') {
+		// } else {
+		// 	installationSettings.push(
+		// 		'--amqp-host',
+		// 		$app.amqpServerHost,
+		// 		'--amqp-port',
+		// 		$app.amqpServerPort,
+		// 		'--amqp-user',
+		// 		$app.amqpServerUser,
+		// 		'--amqp-password',
+		// 		$app.amqpServerPassword
+		// 	);
+		// }
+		// if ($app.enableModules === '') {
+		// } else {
+		// 	installationSettings.push('--enable-modules');
+		// 	$app.enableModules
+		// 		.split(' ')
+		// 		.forEach((m) => installationSettings.push(m));
+		// }
+		// if ($app.disableModules === '') {
+		// } else {
+		// 	installationSettings.push('--disable-modules');
+		// 	$app.disableModules
+		// 		.split(' ')
+		// 		.forEach((m) => installationSettings.push(m));
+		// }
+		// if ($app.useSampleData === '') {
+		// } else {
+		// 	installationSettings.push('--use-sample-data');
+		// }
 		$app.helpers.magentoCli('setup:install', webServerHandler, {
 			args: installationSettings,
 		});

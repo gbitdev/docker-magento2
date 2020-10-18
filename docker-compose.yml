@@ -12,6 +12,7 @@ services:
   magento:
     image: 'registry.gitlab.com/gbitdev/magento2:2.4.0'
     environment:
+      - MAGENTO_HOST=magento.local
       - MARIADB_HOST=mariadb
       - MARIADB_PORT_NUMBER=3306
       - MAGENTO_DATABASE_USER=bn_magento
@@ -25,7 +26,6 @@ services:
       - AMQP_PORT_NUMBER=""
       - AMQP_USER=""
       - AMQP_PASSWORD=""
-      - MAGENTO_HOST=magento.local
       - PHP_MEMORY_LIMIT='-1'
       - LOCALE=pl_PL
       - DEFAULT_CURRENCY=PLN
@@ -33,7 +33,8 @@ services:
       - TIMEZONE=Europe/Warsaw
       - THEME=Snowdog/alpaca
       - NAMI_DEBUG=TRUE
-      # - DISABLE_MODULES='Magento_AdobeIms Magento_AdobeImsApi Magento_AdobeStockAdminUi Magento_AdobeStockAssetApi Magento_AdobeStockClient Magento_AdobeStockClientApi Magento_AdobeStockImage Magento_AdobeStockImageApi Magento_AdobeStockAsset Magento_AdobeStockImageAdminUi Amazon_Core Amazon_Login Amazon_Payment Klarna_Core Klarna_Ordermanagement Klarna_Onsitemessaging Klarna_Kp Temando_ShippingRemover Yotpo_Yotpo'
+      # - DISABLE_MODULES='Magento_TwoFactorAuth Magento_AdobeIms Magento_AdobeImsApi Magento_AdobeStockAdminUi Magento_AdobeStockAssetApi Magento_AdobeStockClient Magento_AdobeStockClientApi Magento_AdobeStockImage Magento_AdobeStockImageApi Magento_AdobeStockAsset Magento_AdobeStockImageAdminUi Amazon_Core Amazon_Login Amazon_Payment Klarna_Core Klarna_Ordermanagement Klarna_Onsitemessaging Klarna_Kp Temando_ShippingRemover Yotpo_Yotpo'
+      - MODULES_TO_DISABLE='Magento_TwoFactorAuth Magento_AdobeIms Magento_AdobeImsApi Magento_AdobeStockAdminUi Magento_AdobeStockAssetApi Magento_AdobeStockClient Magento_AdobeStockClientApi Magento_AdobeStockImage Magento_AdobeStockImageApi Magento_AdobeStockAsset Magento_AdobeStockImageAdminUi Amazon_Core Amazon_Login Amazon_Payment Klarna_Core Klarna_Ordermanagement Klarna_Onsitemessaging Klarna_Kp Temando_ShippingRemover Yotpo_Yotpo'
     ports:
       - '80:80'
       - '443:443'
