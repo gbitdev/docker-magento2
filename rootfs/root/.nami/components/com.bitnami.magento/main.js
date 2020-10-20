@@ -151,9 +151,9 @@ $app.postInstallation = function () {
 			'--language',
 			$app.language || 'en_US',
 			'--currency',
-			$app.currency || 'USD',
+			$app.defaultCurrency || 'USD',
 			'--timezone',
-			$app.timezone || 'America/Los_Angeles',
+			$app.timeZone || 'America/Los_Angeles',
 			'--use-secure',
 			'1',
 			'--base-url-secure',
@@ -215,10 +215,11 @@ $app.postInstallation = function () {
 		// 		.split(' ')
 		// 		.forEach((m) => installationSettings.push(m));
 		// }
-		// if ($app.useSampleData === '') {
-		// } else {
-		// 	installationSettings.push('--use-sample-data');
-		// }
+		if ($app.useSampleData === '') {
+		} else {
+			installationSettings.push('--use-sample-data');
+		}
+		$app.warn('useSampleData value: ' + $app.useSampleData);
 		$app.helpers.magentoCli('setup:install', webServerHandler, {
 			args: installationSettings,
 		});

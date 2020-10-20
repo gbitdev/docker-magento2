@@ -11,10 +11,6 @@
 		"description": "Default time zone",
 		"default": ""
 	},
-	"locale": {
-		"description": "Default locale",
-		"default": ""
-	},
 	"theme": {
 		"description": "Default theme",
 		"default": ""

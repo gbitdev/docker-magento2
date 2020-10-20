@@ -99,7 +99,7 @@
 			"description": "Elasticsearch server port",
 			"default": ""
 		},
-		"currency": {
+		"defaultCurrency": {
 			"description": "Default currency",
 			"default": ""
 		},
@@ -109,10 +109,6 @@
 		},
 		"timeZone": {
 			"description": "Default time zone",
-			"default": ""
-		},
-		"locale": {
-			"description": "Default locale",
 			"default": ""
 		},
 		"theme": {

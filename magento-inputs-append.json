@@ -2,7 +2,6 @@
 	"currency": "{{$global.env.CURRENCY}}",
 	"language": "{{$global.env.LANGUAGE}}",
 	"timeZone": "{{$global.env.TIMEZONE}}",
-	"locale": "{{$global.env.LOCALE}}",
 	"theme": "{{$global.env.THEME}}",
 	"redisServerHost": "{{$global.env.REDIS_HOST}}",
 	"redisServerPort": "{{$global.env.REDIS_PORT_NUMBER}}",

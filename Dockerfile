@@ -10,6 +10,9 @@ ENV COMPOSER_MEMORY_LIMIT=-1 \
     PATH="/bitnami/magento/htdocs/bin:/opt/bitnami/node/bin:$PATH" \
     WORKDIR=/bitnami/magento/htdocs \
     MAGENTO_HOST=magento.local \
+    LANGUAGE="" \
+    TIMEZONE="" \
+    DEFAULT_CURRENCY="" \
     REDIS_HOST="" \
     REDIS_PORT_NUMBER="" \
     AMQP_HOST="" \
@@ -91,7 +94,7 @@ RUN sed -i 's/print0/print0 | sort -z/' /post-init.sh && \
     cp /post-init.sh /post-restore.sh && \
     chmod +x /post-init.sh /post-restore.sh && \
     sed -i 's/docker-entrypoint-init.d/docker-entrypoint-restore.d/' /post-restore.sh && \
-    sed -i 's/.user_scripts_initialized/.restored/' /post-restore.sh && \
+    sed -i 's/\/bitnami\/magento\/.user_scripts_initialized/\/.restored/' /post-restore.sh && \
     sed -i 's/Custom scripts/Custom restore scripts/' /post-restore.sh && \
     sed -i 's/Custom scripts/Custom init scripts/' /post-init.sh && \
     sed -i 's/\/post-init.sh/\/post-init.sh \n . \/post-restore.sh /' /app-entrypoint.sh && \
