@@ -13,6 +13,7 @@ ENV COMPOSER_MEMORY_LIMIT=-1 \
     LANGUAGE="" \
     TIMEZONE="" \
     DEFAULT_CURRENCY="" \
+    VARNISH_HOST="" \
     REDIS_HOST="" \
     REDIS_PORT_NUMBER="" \
     AMQP_HOST="" \
@@ -71,7 +72,6 @@ RUN ln -s /home/bitnami/.composer /opt/bitnami/magento/htdocs/var/composer_home 
     mageplaza/magento-2-social-login \
     mageplaza/magento-2-product-slider \
     mageplaza/module-banner-slider \
-    mageplaza/module-better-popup \
     mageplaza/module-gdpr \
     mageplaza/module-reports \
     mageplaza/module-sitemap  \
@@ -79,7 +79,7 @@ RUN ln -s /home/bitnami/.composer /opt/bitnami/magento/htdocs/var/composer_home 
     outeredge/magento-structured-data-module \
     # stripe/module-payments \
     yireo/magento2-webp2 
-# && ln -s /bitnami/magento/htdocs/frontools /opt/bitnami/magento/htdocs/dev/tools/frontools
+    # && ln -s /bitnami/magento/htdocs/frontools /opt/bitnami/magento/htdocs/dev/tools/frontools
 
 COPY --chown=1000:1 themes.json /opt/bitnami/magento/htdocs/dev/tools/frontools/config/themes.json
 
