@@ -90,7 +90,8 @@ USER root
 
 COPY rootfs /
 
-RUN sed -i 's/print0/print0 | sort -z/' /post-init.sh && \
+RUN sed -i 's/"$MARIADB_ROOT_USER"/"$MARIADB_ROOT_USER" "$MAGENTO_DATABASE_NAME"/' /post-init.d/sql-mysql.sh && \
+    sed -i 's/print0/print0 | sort -z/' /post-init.sh && \
     cp /post-init.sh /post-restore.sh && \
     chmod +x /post-init.sh /post-restore.sh && \
     sed -i 's/docker-entrypoint-init.d/docker-entrypoint-restore.d/' /post-restore.sh && \
