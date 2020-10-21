@@ -3,7 +3,7 @@
 . /opt/bitnami/base/functions
 
 chmod +x ${WORKDIR}/bin/magerun2 && \
-info "ls -l ${WORKDIR}/bin/magerun2"
+info "$(ls -l ${WORKDIR}/bin/magerun2)"
 
 gosu bitnami $WORKDIR/bin/magento setup:store-config:set --use-secure-admin 1
 

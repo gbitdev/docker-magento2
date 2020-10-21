@@ -20,15 +20,19 @@
 #     info "Modules Removed"
 # fi
 
-if [ -z $MODULES_TO_DISABLE ]
-then
-    warn "Nothing to disable"
-else
-    gosu bitnami $WORKDIR/bin/magento module:disable \
-        $MODULES_TO_DISABLE
-        # $(magerun2 dev:module:list --format=csv | grep -e Magento_TwoFactorAuth -e Adobe -e Amazon -e Temando -e Klarna -e Yotpo | awk -F ',' '{print $1}' | tr '\n' ' ') && \
-    info "Modules Disabled"
-fi
+DISABLE_LIST='Magento_TwoFactorAuth Adobe Amazon Temando Klarna Yotpo'
+FILTER_LIST=''
+
+DISABLE_LIST+=" $MODULES_TO_DISABLE"
+
+for FILTER in $DISABLE_LIST
+do
+    FILTER_LIST+=" -e $FILTER"
+done
+
+gosu bitnami $WORKDIR/bin/magento module:disable \
+    $(magerun2 dev:module:list --format=csv | grep -e $FILTER_LIST | awk -F ',' '{print $1}' | tr '\n' ' ') && \
+info "Modules Disabled"
 
 if [ -z $MODULES_TO_ENABLE ]
 then
