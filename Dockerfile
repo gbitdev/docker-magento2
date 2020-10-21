@@ -83,9 +83,6 @@ RUN ln -s /home/bitnami/.composer /opt/bitnami/magento/htdocs/var/composer_home 
 
 COPY --chown=1000:1 themes.json /opt/bitnami/magento/htdocs/dev/tools/frontools/config/themes.json
 
-RUN cd /opt/bitnami/magento/htdocs/vendor/snowdog/frontools && \
-    yarn && gulp setup
-
 USER root
 
 COPY rootfs /

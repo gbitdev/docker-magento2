@@ -9,6 +9,8 @@ gosu bitnami $WORKDIR/bin/magento setup:store-config:set --use-secure-admin 1
 
 info PHP memory limit is setted to $(php -r "echo ini_get('memory_limit').PHP_EOL;")
 
+gosu bitnami bash -c 'cd /bitnami/magento/htdocs/vendor/snowdog/frontools && yarn && gulp setup'
+
 # if [ -z $DEFAULT_CURRENCY ]
 # then
 #   warn "DEFAULT_CURRENCY variable empty"
